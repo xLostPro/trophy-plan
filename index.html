@@ -21,7 +21,7 @@
     }
   }
   * { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: var(--text);
+  body { margin: 0; background: var(--bg); color: var(--text); -webkit-text-size-adjust: 100%; text-size-adjust: 100%;
          font: 15px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
   main { max-width: 860px; margin: 0 auto; padding: 16px 16px 48px; }
   h1 { font-size: 22px; margin: 4px 0 2px; }
@@ -41,7 +41,10 @@
   .filters select { font: inherit; font-size: 13px; color: var(--text); background: var(--card);
                     border: 1px solid var(--line); border-radius: 8px; padding: 5px 8px; }
   .chip.idle { background: var(--warn); color: #fff; }
-  details.game { background: var(--card); border: 1px solid var(--line); border-radius: 12px; margin-bottom: 8px; }
+  /* off-screen cards are skipped when painting, which keeps scrolling smooth on phones */
+  details.game { background: var(--card); border: 1px solid var(--line); border-radius: 12px; margin-bottom: 8px;
+                 content-visibility: auto; contain-intrinsic-size: auto 84px; }
+  details.game > summary, details.panel > summary { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
   details.game > summary { list-style: none; cursor: pointer; padding: 12px; display: grid;
                            grid-template-columns: 28px 1fr auto; gap: 4px 10px; align-items: center; }
   details.game > summary::-webkit-details-marker { display: none; }
@@ -54,7 +57,7 @@
   .chip.Next { background: var(--good); color: #fff; }
   .chip.Dropped { opacity: .6; }
   .chip.miss { background: var(--bad); color: #fff; }
-  .bar { grid-column: 2 / 4; height: 6px; background: var(--bar); border-radius: 3px; overflow: hidden; position: relative; }
+  .bar { grid-column: 2 / 4; height: 6px; background: var(--bar); border-radius: 3px; position: relative; }
   .bar i { position: absolute; inset: 0 auto 0 0; background: var(--good); border-radius: 3px; }
   .body { padding: 0 12px 12px 50px; font-size: 14px; }
   .body dl { display: grid; grid-template-columns: max-content 1fr; gap: 4px 12px; margin: 0 0 8px; }
@@ -70,8 +73,9 @@
   .trophies .rar { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
   .trophies .td { grid-column: 2 / 4; font-size: 13px; color: var(--muted); }
   a { color: var(--accent); }
-  table { width: 100%; border-collapse: collapse; background: var(--card); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; font-size: 14px; }
+  table { width: 100%; border-collapse: separate; border-spacing: 0; background: var(--card); border: 1px solid var(--line); border-radius: 12px; font-size: 14px; }
   td, th { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+  tr:last-child td { border-bottom: 0; }
   th { color: var(--muted); font-weight: 500; font-size: 12px; }
   .num { text-align: right; font-variant-numeric: tabular-nums; }
   .panel { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 4px 12px 8px; }
